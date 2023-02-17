@@ -7,7 +7,22 @@ export const textSchema = yup.object().shape({
     .string()
     .test(
       "password-regx",
-      "password must have minimum 8 characters,special character,number,capital ",
+      ({ value: pwd }) => {
+        let spChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+        let num = /[0-9]/;
+        let capital = /[A-Z]/;
+
+        const msg = [
+          "Special Characters",
+          "Numbers",
+          "Capitals",
+          "Min 8 characters",
+        ];
+
+        return `${spChars.test(pwd) ? "" : msg[0]},${
+          num.test(pwd) ? "" : msg[1]
+        },${capital.test(pwd) ? "" : msg[2]},${pwd.length >= 8 ? "" : msg[3]}`;
+      },
       (value) => {
         const pattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         return pattern.test(value);
@@ -36,7 +51,22 @@ export const useDataSchema = yup.object().shape({
     .string()
     .test(
       "password-regx",
-      "password must have minimum 8 characters,special character,number,capital ",
+      ({ value: pwd }) => {
+        let spChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+        let num = /[0-9]/;
+        let capital = /[A-Z]/;
+
+        const msg = [
+          "Special Characters",
+          "Numbers",
+          "Capitals",
+          "Min 8 characters",
+        ];
+
+        return `${spChars.test(pwd) ? "" : msg[0]},${
+          num.test(pwd) ? "" : msg[1]
+        },${capital.test(pwd) ? "" : msg[2]},${pwd.length >= 8 ? "" : msg[3]}`;
+      },
       (value) => {
         const pattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         return pattern.test(value);
@@ -47,5 +77,5 @@ export const useDataSchema = yup.object().shape({
   gender: yup.string().required("Gender required*"),
   country: yup.array().min(1, "Country required*"),
   program: yup.array(),
-  textArea:yup.string()
+  textArea: yup.string(),
 });
